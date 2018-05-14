@@ -8,13 +8,14 @@ import os
 import sys
 import logging
 
-BASE_DIR = os.path.basename(os.path.basename(os.path.abspath(__file__))) #整个程序的主目录
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #整个程序的主目录
 
-# DATABASE = {
-#     'engine': 'file_storage', #support mysql,postgresql in the future
-#     'name':'accounts',
-#     'path': "%s/db" % BASE_DIR
-# }
+DATABASE = {
+    'engine': 'file_storage', #support mysql,postgresql in the future
+    'name':'accounts',
+    'path': "%s/db" % BASE_DIR
+}
+
 
 
 LOG_LEVEL = logging.INFO #日志的级别

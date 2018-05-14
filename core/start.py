@@ -15,12 +15,7 @@ import logging
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # print(BASE_DIR)
 
-def print_log(msg, log_type='info'):
-    """写个通用的打印log 的程序"""
-    if log_type == 'info':
-        print('\033[32;1m%s\033[0m'%msg)
-    elif log_type == 'error':
-        print('\033[31;1m%s\033[0m'%msg)
+
 
 def load_file(account):
     """
@@ -139,7 +134,7 @@ def user_interface(account_data):
         '1':account_info,
         '2':'repay',
         '3':'withdraw',
-        '4':transfer,
+        '4':'transfer',
         '5':'pay_check',
         '6':'logout',
     } # 函数字典， 实际上每个选项对应一个函数
@@ -153,21 +148,26 @@ def user_interface(account_data):
             # pass
 
 
-def account_info(user_info):
+def account_info(user_info,*args, **kwargs):
     """
     打印用户信息
     :param user_info:
     :return:
     """
     # user_info_list = user_info
-    info_dispay = u"""
-    ------- account_info ---------
-    name:%s
-    expire_date:%s
-    pay_day:%s
-    balance:%s 
-    """%(user_info['id'],user_info['expire_date'],user_info['pay_day'],user_info['balance'])
-    print_log(info_dispay,'info')
+    # info_dispay = u"""
+    # ------- account_info ---------
+    # name:%s
+    # expire_date:%s
+    # pay_day:%s
+    # balance:%s
+    # """%(user_info['id'],user_info['expire_date'],user_info['pay_day'],user_info['balance'])
+    # print_log(info_dispay,'info')
+    print('ACCOUNT INFO'.center(50,'-'))
+    for k,v in user_info['data'].items():  #???
+        if k not in ('password',):
+            print_log('%15s:%s'%(k,v))
+        print('END'.center(50,'-'))
 
 def repay(user_info):
     """

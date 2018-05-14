@@ -6,31 +6,31 @@
 
 
 import logging
-import os
-import sys
+# import os
+# import sys
+from conf import settings
 
-# from conf import settings
 BASE_DIR = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 print(BASE_DIR)
 
-def logger():
+def logger(log_type):
     #create logger
-    # logger = logging.getLogger(log_type)
-    logger = logging.getLogger('access.log')
-    # logger.setLevel(settings.LOG_LEVEL)
-    logger.setLevel(logging.INFO)
+    logger = logging.getLogger(log_type)
+    # logger = logging.getLogger('access.log')
+    logger.setLevel(settings.LOG_LEVEL)
+    # logger.setLevel(logging.INFO)
 
     #create console handle
     ch = logging.StreamHandler()
-    # ch.setLevel(settings.LOG_LEVEL)
-    ch.setLevel(logging.INFO)
+    ch.setLevel(settings.LOG_LEVEL)
+    # ch.setLevel(logging.INFO)
 
     #create file handle
-    # log_file = '%s/log/%s' %(settings.BASE_DIR, settings.LOG_TYPES[log_type])
-    log_file = '%s' % ('access.log')
+    log_file = '%s/log/%s' %(settings.BASE_DIR, settings.LOG_TYPES[log_type])
+    # log_file = '%s' % ('access.log')
     fh = logging.FileHandler(log_file)
-    # fh.setLevel(settings.LOG_LEVEL)
-    fh.setLevel(logging.INFO)
+    fh.setLevel(settings.LOG_LEVEL)
+    # fh.setLevel(logging.INFO)
 
     #create the formatter
     formatter = logging.Formatter('%(asctime)s-%(name)s-%(levelname)s-%(message)s')
@@ -42,10 +42,10 @@ def logger():
     logger.addHandler(ch)
     logger.addHandler(fh)
 
-    logger.info('bonnie has access')
+    # logger.info('bonnie has access')
 
-    # return logger
+    return logger
 
 
-logger()
+# logger()
 
