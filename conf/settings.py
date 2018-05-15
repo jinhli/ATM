@@ -10,6 +10,7 @@ import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #整个程序的主目录
 
+print(BASE_DIR)
 DATABASE = {
     'engine': 'file_storage', #support mysql,postgresql in the future
     'name':'accounts',
@@ -17,18 +18,17 @@ DATABASE = {
 }
 
 
-
-LOG_LEVEL = logging.INFO #日志的级别
+LOG_LEVEL = logging.INFO  #日志的级别
 LOG_TYPES = {"""日志类型，分为操作日志和登陆日志"""
-    'transaction': 'transactions.log',
-    'access': 'access.log',
+             'transaction': 'transactions.log',
+             'access': 'access.log',
 }
 
 TRANSACTION_TYPE = {"""操作类型，还款，取现，转帐，"""
-    'repay':{'action':'plus', 'interest':0},
-    'withdraw':{'action':'minus', 'interest':0.05},
-    'transfer':{'action':'minus', 'interest':0.05},
-    'consume':{'action':'minus', 'interest':0},
+    'repay': {'action': 'plus', 'interest': 0},
+    'withdraw': {'action': 'minus', 'interest': 0.05},
+    'transfer': {'action': 'minus', 'interest': 0.05},
+    'consume': {'action': 'minus', 'interest': 0},
 
 }
 

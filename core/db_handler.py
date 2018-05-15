@@ -4,5 +4,42 @@
 # Email: bonnie922713@126.com
 # Date: 5/14/18
 
+import json
+import os
+import time
+from conf import settings
+from core import util
+
+
+def load_file(account):
+    """
+    :param account:
+    :return: user_info
+    :用户信息读到内存
+    """
+    # user_info = {} #可以不需要提前定义
+    file_name = '%s/db/account/%s.json' % (settings.BASE_DIR, account)
+    if os.path.isfile(file_name):
+        with open(file_name, 'r', encoding='utf-8') as f:
+            user_info = json.load(f)
+            return user_info
+    else:
+        util.print_log('there is no account info for %s' % account, 'error')
+        exit()
+
+
+def update_file(account, user_info):
+    """
+    更新这里， 保证所有的修改都能使用
+    :param account:
+    :return: no return
+    用户信息更新到文件
+    """
+    file_name = '%s/account/%s.json' % (settings.BASE_DIR, account)
+
+    with open(file_name, 'w', encoding='utf-8') as f:
+        json.dump(user_info, f)
+
+    return True
 
 
