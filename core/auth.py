@@ -11,7 +11,6 @@ from core import util
 import json
 import time
 
-
 def login_required(func):
     """
     验证用户登陆
@@ -34,7 +33,10 @@ def access_auth(account, password):
     :param password:
     :return: account_data
     """
-    db_path = settings.BASE_DIR/'db'/account
+    db_path = '%s/account' % settings.BASE_DIR
+
+    print(db_path)
+
     account_file = '%s/%s.json' % (db_path, account)
     if os.path.isfile(account_file):
         account_data = db_handler.load_file(account)
@@ -73,7 +75,7 @@ def user_login(user_data, log_obj):
     while user_data['is_authenticated'] is not True and retry_count < 3:
         account = input('please input your account->').strip()
         password = input('please input your password->').strip()
-        account_data = access_auth(account,password)
+        account_data = access_auth(account, password)
         if account_data:
             user_data['is_authenticated'] = True  # login successfully
             user_data['account_name'] = account

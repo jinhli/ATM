@@ -13,13 +13,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #整个�
 print(BASE_DIR)
 DATABASE = {
     'engine': 'file_storage', #support mysql,postgresql in the future
-    'name':'accounts',
+    'name': 'accounts',
     'path': "%s/db" % BASE_DIR
 }
 
 
 LOG_LEVEL = logging.INFO  #日志的级别
-LOG_TYPES = {"""日志类型，分为操作日志和登陆日志"""
+LOG_TYPES = {
              'transaction': 'transactions.log',
              'access': 'access.log',
 }

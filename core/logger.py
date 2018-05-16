@@ -6,12 +6,12 @@
 
 
 import logging
-# import os
-# import sys
+import os
+import sys
 from conf import settings
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  #整个程序的主目录
+sys.path.append(BASE_DIR)
 
-BASE_DIR = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
-print(BASE_DIR)
 
 def logger(log_type):
     #create logger
@@ -21,8 +21,8 @@ def logger(log_type):
     # logger.setLevel(logging.INFO)
 
     #create console handle
-    ch = logging.StreamHandler()
-    ch.setLevel(settings.LOG_LEVEL)
+    # ch = logging.StreamHandler()
+    # ch.setLevel(settings.LOG_LEVEL)
     # ch.setLevel(logging.INFO)
 
     #create file handle
@@ -35,11 +35,11 @@ def logger(log_type):
     #create the formatter
     formatter = logging.Formatter('%(asctime)s-%(name)s-%(levelname)s-%(message)s')
 
-    ch.setFormatter(formatter)
+    # ch.setFormatter(formatter)
     fh.setFormatter(formatter)
 
     #add ch and fh to logger
-    logger.addHandler(ch)
+    # logger.addHandler(ch)
     logger.addHandler(fh)
 
     # logger.info('bonnie has access')
@@ -47,5 +47,5 @@ def logger(log_type):
     return logger
 
 
-
+# logger('transaction')
 

@@ -9,7 +9,10 @@ import os
 import time
 from conf import settings
 from core import util
+import sys
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  #整个程序的主目录
+sys.path.append(BASE_DIR)
 
 def load_file(account):
     """
@@ -18,7 +21,7 @@ def load_file(account):
     :用户信息读到内存
     """
     # user_info = {} #可以不需要提前定义
-    file_name = '%s/db/account/%s.json' % (settings.BASE_DIR, account)
+    file_name = '%s/account/%s.json' % (settings.BASE_DIR, account)
     if os.path.isfile(file_name):
         with open(file_name, 'r', encoding='utf-8') as f:
             user_info = json.load(f)

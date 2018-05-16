@@ -7,6 +7,7 @@
 from conf import settings
 from core import logger
 from core import db_handler
+from core import util
 
 
 def make_transaction(log_obj, user_info, tran_type, amount, **kwargs):
@@ -21,21 +22,31 @@ def make_transaction(log_obj, user_info, tran_type, amount, **kwargs):
     """
     amount = float(amount)
 
-    if tran_type in settings.TRANSACTION_TYPE :
+    if tran_type in settings.TRANSACTION_TYPE:
         interest = amount * settings.TRANSACTION_TYPE[tran_type]['interest']
         old_balance = user_info['balance']
         # repay
         if settings.TRANSACTION_TYPE[tran_type]['action'] == 'plus':
             new_balance = old_balance + amount + interest
-        # withdraw/transfer
+        # withdraw/transfer/consume
         elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'minus':
             new_balance = old_balance - amount - interest
             # only for transfer
-            if kwargs.get('transfer_name'):
-                transfer_name_info = db_handler.load_file(kwargs.get('transfer_name'))
-                transfer_name_balance = transfer_name_info['balance'] + amount
-                transfer_name_info['balance'] = transfer_name_balance
-                db_handler.update_file(transfer_name_info['id'], transfer_name_info)
+            if new_balance < 0:
+                util.print_log('there is no enough money to pay for the transition[-%s],you current balance is %s' % (amount, old_balance), 'error')
+                return
+            else:
+                if kwargs.get('transfer_name'):
+                    transfer_name_info = db_handler.load_file(kwargs.get('transfer_name'))
+                    transfer_name_balance = transfer_name_info['balance'] + amount
+                    transfer_name_info['balance'] = transfer_name_balance
+                    db_handler.update_file(transfer_name_info['id'], transfer_name_info)
+            user_info['balance'] = new_balance
+            db_handler.update_file(user_info[id], user_info)
+            return user_info
+        else:
+            util.print_log('there is no %s transition type', tran_type)
+
 
 
 

@@ -11,6 +11,9 @@ from core import transaction
 from core.auth import login_required
 import time
 from core import util
+from conf import settings
+import os
+from core import transaction
 
 # logger
 trans_logger = logger.logger('transaction')
@@ -20,7 +23,7 @@ access_logger = logger.logger('access')
 user_data = {
     'account_name': None,
     'is_authenticated': False,
-    'account_data' : None
+    'account_data': None
 
 }
 
@@ -41,9 +44,9 @@ def account_info(user_info):
     # """%(user_info['id'],user_info['expire_date'],user_info['pay_day'],user_info['balance'])
     # print_log(info_dispay,'info')
     print('ACCOUNT INFO'.center(50, '-'))
-    for k, v in user_info['data'].items():  # ???
+    for k, v in user_info.items():  # ???
         if k not in ('password',):
-            print_log('%15s:%s' % (k, v))
+            util.print_log('%15s:%s' % (k, v), 'info')
         print('END'.center(50, '-'))
 
 
@@ -74,22 +77,39 @@ def transfer(user_info):
     back_flag = False
     while not back_flag:
 
-        transfer_name = input('please input the account you want to transfer>>:').strip()
+        transfer_name1 = input('please input the account you want to transfer>>:').strip()
         transfer_amount = float(input('please input the amount>>:').strip())
         if transfer_name or transfer_amount == 'b':
             return
-        if len(transfer_amount) > 0 and transfer_amount.isdigit():
-            transfer_info = db_handler.load_file(transfer_name)
-            user_info['balance'] = current_balance-transfer_amount
-            transfer_info['balance'] = float(transfer_info['balance']+transfer_amount)
-            db_handler.update_file(user_info['id'], user_info)
-            db_handler.update_file(transfer_name, transfer_info)
+        file_name = '%s/db/account/%s.json' % (settings.BASE_DIR, transfer_name1)
+        if os.path.isfile(file_name):
+            if len(transfer_amount) > 0 and transfer_amount.isdigit():
+                new_balance = transaction.make_transaction(trans_logger, user_info, 'transfer', transfer_amount, transfer_name = transfer_name1)
+
+                if new_balance:
+                    util.print_log('transfer successfully', 'error')
+                    util.print_log('current balance:%s' % new_balance['balance'], 'info')
+
+            else:
+                util.print_log('input the right transfer mount')
+        else:
+            util.print_log("the %s does not exist" % transfer_name1, 'error')
+
 
 
 @login_required
 def with_draw(user_info):
     """
     with_draw
+    :param user_info:
+    :return:
+    """
+    pass
+
+@login_required
+def pay_check(user_info):
+    """
+    pay_check
     :param user_info:
     :return:
     """
@@ -105,7 +125,7 @@ def logout(user_info):
     exit('quit the system')
 
 
-def user_interface(user_info):
+def user_interface(user_data):
     """
     #用户交互函数
     interact with user:
@@ -121,12 +141,12 @@ def user_interface(user_info):
     6.  logout
     """
     menu_dic = {
-        '1': 'account_info',
-        '2': 'repay',
-        '3': 'withdraw',
-        '4': 'transfer',
-        '5': 'pay_check',
-        '6': 'logout',
+        '1': account_info,
+        '2': repay,
+        '3': with_draw,
+        '4': transfer,
+        '5': pay_check,
+        '6': logout,
     }  # 函数字典， 实际上每个选项对应一个函数
     exit_flag = False
     while not exit_flag:
@@ -135,6 +155,14 @@ def user_interface(user_info):
         if user_option == 'b':
             return
         if user_option in menu_dic:
-            menu_dic[user_option](user_info)
+            menu_dic[user_option](user_data)
         else:
             util.print_log('your choice does not exist', 'error')
+
+
+def run():
+    user_info = auth.user_login(user_data, access_logger)
+    if user_data['is_authenticated']:
+        user_data['account_data'] = user_info
+        # print('user>%s' % user_data)
+        user_interface(user_data)

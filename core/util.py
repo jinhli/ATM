@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__="Bonnie"
 # Date:2018/3/16
-
+import hashlib
 
 def print_log(msg, log_type='info'):
     """写个通用的打印log 的程序"""
@@ -24,3 +24,7 @@ def passwd_md5(account, password):
     md5.update(password.encode('utf-8'))   #加上encode编码
     ret = md5.hexdigest()
     return ret
+
+
+# a = passwd_md5('luffy','1234')
+# print(a)
