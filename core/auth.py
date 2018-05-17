@@ -19,8 +19,10 @@ def login_required(func):
     """
 
     def wrapper(*args, **kwargs):
+        # print('--wrapper--->',args,kwargs)
+
         if args[0].get('is_authenticated'):
-            return fun(*args, **kwargs)
+            return func(*args, **kwargs)
         else:
             exit('user is not authenticated')
     return wrapper
@@ -61,7 +63,7 @@ def access_auth(account, password):
                 util.print_log('the password of the account %s is not right' % account, 'error')
         else:
             util.print_log('there is no any information of %s' % account, 'error')
-        exit()
+            exit()
 
 
 def user_login(user_data, log_obj):
@@ -80,10 +82,11 @@ def user_login(user_data, log_obj):
             user_data['is_authenticated'] = True  # login successfully
             user_data['account_name'] = account
             return account_data
-        # user_interface(account_data) #(登陆界面)
         retry_count += 1
     else:
-        # update_file(account)
+        user_info = db_handler.load_file(account)
+        user_info['status'] = 1
+        db_handler.update_file(account,user_info)
         log_obj.error("[%s]账户太多次尝试" % account)  # log type
         exit()
 

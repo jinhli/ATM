@@ -28,30 +28,22 @@ user_data = {
 }
 
 
-def account_info(user_info):
+def account_info(user_data):
     """
     打印用户信息
     :param user_info:
     :return:
     """
-    # user_info_list = user_info
-    # info_dispay = u"""
-    # ------- account_info ---------
-    # name:%s
-    # expire_date:%s
-    # pay_day:%s
-    # balance:%s
-    # """%(user_info['id'],user_info['expire_date'],user_info['pay_day'],user_info['balance'])
-    # print_log(info_dispay,'info')
+    user_info = user_data['account_data']
     print('ACCOUNT INFO'.center(50, '-'))
     for k, v in user_info.items():  # ???
         if k not in ('password',):
-            util.print_log('%15s:%s' % (k, v), 'info')
-        print('END'.center(50, '-'))
+            util.print_log('%15s: %s' % (k, v), 'info')
+    print('END'.center(50, '-'))
 
 
 @login_required  # 装饰器，判断用户是否登陆
-def repay(user_info):
+def repay(user_data):
     """
     还款
     :param user_info:
@@ -61,17 +53,18 @@ def repay(user_info):
 
 
 @login_required
-def transfer(user_info):
+def transfer(user_data):
     """
     转账
-    :param user_info:
+    :param user_data:
     :return:
     """
+    user_info = db_handler.load_file(user_data['account_name'])
     current_balance = user_info['balance']
 
-    balance_info = ''' --------- 银行信息 --------
-            信用额度: %s
-            账户余额: %s''' % (user_info['credit'], user_info['balance'])
+    balance_info = ''' --------- bank info --------
+            credit: %s
+            balance: %s''' % (user_info['credit'], user_info['balance'])
 
     util.print_log(balance_info, 'info')
     back_flag = False
@@ -79,7 +72,7 @@ def transfer(user_info):
 
         transfer_name1 = input('please input the account you want to transfer>>:').strip()
         transfer_amount = float(input('please input the amount>>:').strip())
-        if transfer_name or transfer_amount == 'b':
+        if transfer_name1 or transfer_amount == 'b':
             return
         file_name = '%s/db/account/%s.json' % (settings.BASE_DIR, transfer_name1)
         if os.path.isfile(file_name):
@@ -125,7 +118,7 @@ def logout(user_info):
     exit('quit the system')
 
 
-def user_interface(user_data):
+def user_interface(account_data):
     """
     #用户交互函数
     interact with user:
@@ -162,7 +155,8 @@ def user_interface(user_data):
 
 def run():
     user_info = auth.user_login(user_data, access_logger)
+    print(user_info)
     if user_data['is_authenticated']:
         user_data['account_data'] = user_info
         # print('user>%s' % user_data)
-        user_interface(user_data)
+        user_interface(user_data['account_data'])

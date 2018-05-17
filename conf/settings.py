@@ -10,7 +10,6 @@ import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #整个程序的主目录
 
-print(BASE_DIR)
 DATABASE = {
     'engine': 'file_storage', #support mysql,postgresql in the future
     'name': 'accounts',
