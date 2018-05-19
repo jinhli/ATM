@@ -42,6 +42,43 @@ def account_info(user_data):
     print('END'.center(50, '-'))
 
 
+def com_tran_module(user_data, tran_type):
+    """
+    交易交互模块
+    :param user_data:
+    :return: user_info , and back_flag
+    """
+    user_info = db_handler.load_file(user_data['account_name'])#user_data 全局变量
+    balance_info = ''' --------- bank info --------
+            credit: %s
+            balance: %s''' % (user_info['credit'], user_info['balance'])
+
+    util.print_log(balance_info, 'info')
+    back_flag = False
+    while not back_flag:
+        if tran_type in settings.TRANSACTION_TYPE:
+            amount = input('please input the transaction amount>>:').strip()
+            if len(amount)>0 and amount.isdigit():
+                amount = float(amount)
+                if tran_type == 'transfer':
+                    transfer_name1 = input('please input the account you want to transfer>>:').strip()
+                    if transfer_name1 == 'b' or amount == 'b':
+                        return
+                    file_name = '%s/account/%s.json' % (settings.BASE_DIR, transfer_name1)
+                    if os.path.isfile(file_name):
+                        new_balance,save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount, transfer_name = transfer_name1)
+                else:
+                    new_balance, save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount)
+                if save_flag:
+                    util.print_log('transaction successfully', 'info')
+                    util.print_log('current balance>>%s' % new_balance['balance'], 'info')
+                else:
+                    util.print_log('there is some thing wrong and the transaction is not success', 'error')
+
+            elif amount == 'b':
+                back_flag = True
+
+
 @login_required  # 装饰器，判断用户是否登陆
 def repay(user_data):
     """
@@ -49,7 +86,11 @@ def repay(user_data):
     :param user_info:
     :return:
     """
-    pass
+    com_tran_module(user_data, 'repay')
+
+
+
+
 
 
 @login_required
@@ -59,60 +100,33 @@ def transfer(user_data):
     :param user_data:
     :return:
     """
-    user_info = db_handler.load_file(user_data['account_name'])
-    current_balance = user_info['balance']
-
-    balance_info = ''' --------- bank info --------
-            credit: %s
-            balance: %s''' % (user_info['credit'], user_info['balance'])
-
-    util.print_log(balance_info, 'info')
-    back_flag = False
-    while not back_flag:
-
-        transfer_name1 = input('please input the account you want to transfer>>:').strip()
-        transfer_amount = float(input('please input the amount>>:').strip())
-        if transfer_name1 or transfer_amount == 'b':
-            return
-        file_name = '%s/db/account/%s.json' % (settings.BASE_DIR, transfer_name1)
-        if os.path.isfile(file_name):
-            if len(transfer_amount) > 0 and transfer_amount.isdigit():
-                new_balance = transaction.make_transaction(trans_logger, user_info, 'transfer', transfer_amount, transfer_name = transfer_name1)
-
-                if new_balance:
-                    util.print_log('transfer successfully', 'error')
-                    util.print_log('current balance:%s' % new_balance['balance'], 'info')
-
-            else:
-                util.print_log('input the right transfer mount')
-        else:
-            util.print_log("the %s does not exist" % transfer_name1, 'error')
-
+    com_tran_module(user_data, 'transfer')
 
 
 @login_required
-def with_draw(user_info):
+def withdraw(user_data):
     """
     with_draw
-    :param user_info:
+    :param user_data:
     :return:
     """
-    pass
+    com_tran_module(user_data, 'withdraw')
+
 
 @login_required
-def pay_check(user_info):
+def pay_check(user_data):
     """
     pay_check
-    :param user_info:
+    :param user_data:
     :return:
     """
-    pass
+    com_tran_module(user_data, 'consume')
 
 
-def logout(user_info):
+def logout(user_data):
     """
     logout
-    :param user_info:
+    :param user_data:
     :return:
     """
     exit('quit the system')
@@ -125,7 +139,7 @@ def user_interface(account_data):
     :return:
     """
     menu = u"""
-    ------- luff Bank ---------
+    -------Bank interface ---------
     1.account_info
     2.  repay 
     3.  withdraw 
@@ -136,11 +150,12 @@ def user_interface(account_data):
     menu_dic = {
         '1': account_info,
         '2': repay,
-        '3': with_draw,
+        '3': withdraw,
         '4': transfer,
         '5': pay_check,
         '6': logout,
     }  # 函数字典， 实际上每个选项对应一个函数
+
     exit_flag = False
     while not exit_flag:
         util.print_log(menu, 'info')
@@ -155,8 +170,6 @@ def user_interface(account_data):
 
 def run():
     user_info = auth.user_login(user_data, access_logger)
-    print(user_info)
     if user_data['is_authenticated']:
         user_data['account_data'] = user_info
-        # print('user>%s' % user_data)
         user_interface(user_data['account_data'])

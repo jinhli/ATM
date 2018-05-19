@@ -1,1 +1,1 @@
-{"status": 1, "password": "59a96ce9c105850f84d7e581a534b91b", "balance": 10000, "expire_date": "2021-01-01", "credit": 15000, "id": "luffy", "pay_day": 22}
+{"status": 0, "credit": 15000, "balance": 11995.5, "password": "59a96ce9c105850f84d7e581a534b91b", "expire_date": "2021-01-01", "pay_day": 22, "id": "luffy"}

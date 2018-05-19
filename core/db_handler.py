@@ -40,8 +40,10 @@ def update_file(account, user_info):
     """
     file_name = '%s/account/%s.json' % (settings.BASE_DIR, account)
 
-    with open(file_name, 'w', encoding='utf-8') as f:
+    with open('%s.new' %file_name, 'w', encoding='utf-8') as f:
         json.dump(user_info, f)
+
+    os.rename('%s.new' %file_name,file_name) #目的是以防万一出现老数据被修改，新数据又没又完成
 
     return True
 

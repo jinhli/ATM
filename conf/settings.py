@@ -23,10 +23,10 @@ LOG_TYPES = {
              'access': 'access.log',
 }
 
-TRANSACTION_TYPE = {"""操作类型，还款，取现，转帐，"""
+TRANSACTION_TYPE = {
     'repay': {'action': 'plus', 'interest': 0},
-    'withdraw': {'action': 'minus', 'interest': 0.05},
-    'transfer': {'action': 'minus', 'interest': 0.05},
+    'withdraw': {'action': 'minus', 'interest': 0.005},
+    'transfer': {'action': 'minus', 'interest': 0.005},
     'consume': {'action': 'minus', 'interest': 0},
 
 }

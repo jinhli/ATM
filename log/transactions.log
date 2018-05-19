@@ -1,0 +1,10 @@
+2018-05-18 08:48:59,195-transaction-INFO-account_name:tesla,transaction:None,transfer_name:transfer,amount:1000.0,interest:50.0
+2018-05-18 08:53:57,605-transaction-INFO-account_name:tesla,transaction:None,transfer_name:transfer,amount:1000.0,interest:50.0
+2018-05-18 08:57:18,927-transaction-INFO-account_name:tesla,transaction:transfer,transfer_name:luffy,amount:500.0,interest:25.0
+2018-05-18 18:31:54,249-transaction-INFO-account_name:luffy,transaction:transfer,transfer_name:tesla,amount:10000.0,interest:500.0
+2018-05-19 10:09:13,447-transaction-INFO-account_name:luffy,transaction:transfer,transfer_name:tesla,amount:2000.0,interest:100.0
+2018-05-19 12:28:36,200-transaction-INFO-account_name:luffy,transaction:transfer,transfer_name:tesla,amount:500.0,interest:2.5
+2018-05-19 12:30:04,101-transaction-INFO-account_name:luffy,transaction:repay,amount:2000.0,interest:0.0
+2018-05-19 12:30:20,977-transaction-INFO-account_name:luffy,transaction:repay,amount:5.0,interest:0.0
+2018-05-19 12:30:55,064-transaction-INFO-account_name:luffy,transaction:consume,amount:500.0,interest:0.0
+2018-05-19 12:31:09,483-transaction-INFO-account_name:luffy,transaction:consume,amount:6.0,interest:0.0
