@@ -3,17 +3,25 @@
 # __author__ = "Bonnie Li"
 # Email: bonnie922713@126.com
 # Date: 5/14/18
+
+#管理接口的
+
 import json
 import os
 import sys
-import datetime
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  #整个程序的主目录
+# sys.path.append(BASE_DIR)
 from core import db_handler
 from core import util
 from core import main
-from conf import settings
 from core.auth import login_required
 
-def add_acc():
+
+import datetime
+from conf import settings
+
+
+def add_acc(*args):
     """
     :return:
     """
@@ -94,9 +102,12 @@ def lock_acc():
 
 
 def logout(): #想退出到上一层目录
+
     # return
     exit('exit the system')
 
+
+@login_required
 def manage_main(user_data):
     """
     管理主程序
@@ -127,5 +138,4 @@ def manage_main(user_data):
         else:
             util.print_log('input the wrong choice, please try again','error')
 
-#
 # manage_main()

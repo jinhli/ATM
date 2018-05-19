@@ -3,17 +3,19 @@
 # __author__ = "Bonnie Li"
 # Email: bonnie922713@126.com
 # Date: 5/14/18
+import time
+import os
 
 from core import auth
 from core import logger
 from core import db_handler
 from core import transaction
 from core.auth import login_required
-import time
 from core import util
 from conf import settings
-import os
-from core import transaction
+from core import manage
+
+
 
 # logger
 trans_logger = logger.logger('transaction')
@@ -147,6 +149,16 @@ def user_interface(account_data):
     5.  pay_check
     6.  logout
     """
+    menu1 = u"""
+    -------Bank interface ---------
+    1.account_info
+    2.  repay 
+    3.  withdraw 
+    4.  transfer 
+    5.  pay_check
+    6.  logout
+    7.  Administrator
+    """
     menu_dic = {
         '1': account_info,
         '2': repay,
@@ -155,10 +167,14 @@ def user_interface(account_data):
         '5': pay_check,
         '6': logout,
     }  # 函数字典， 实际上每个选项对应一个函数
-
+    admin_flag = account_data['admin_flag']
     exit_flag = False
     while not exit_flag:
-        util.print_log(menu, 'info')
+        if admin_flag == 1:  # 管理员
+            util.print_log(menu1, 'info')
+            menu_dic['7'] = manage.manage_main
+        else:
+            util.print_log(menu,'info')
         user_option = input('>>:').strip()
         if user_option == 'b':
             return

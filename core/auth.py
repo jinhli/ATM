@@ -42,8 +42,6 @@ def access_auth(account, password):
     account_file = '%s/%s.json' % (db_path, account)
     if os.path.isfile(account_file):
         account_data = db_handler.load_file(account)
-        if account_data['status'] == 2:  # whether he/she is a administrator
-            pass
         if account_data['status'] == 1:  # the account is locked
             util.print_log('your account has been locked, please contact the administrator', 'error')
             option = input('please press b to quit')
