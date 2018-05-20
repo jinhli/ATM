@@ -5,7 +5,10 @@
 # Date: 5/14/18
 import time
 import os
-
+import sys
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  #整个程序的主目录
+sys.path.append(BASE_DIR)
+print(BASE_DIR)
 from core import auth
 from core import logger
 from core import db_handler
@@ -14,7 +17,7 @@ from core.auth import login_required
 from core import util
 from conf import settings
 from core import manage
-
+from shopping_mall import shopping_mall
 
 
 # logger
@@ -70,6 +73,7 @@ def com_tran_module(user_data, tran_type):
                     file_name = '%s/account/%s.json' % (settings.BASE_DIR, transfer_name1)
                     if os.path.isfile(file_name):
                         new_balance,save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount, transfer_name = transfer_name1)
+
                 else:
                     new_balance, save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount)
                 if save_flag:
@@ -90,8 +94,6 @@ def repay(user_data):
     :return:
     """
     com_tran_module(user_data, 'repay')
-
-
 
 
 
@@ -117,13 +119,24 @@ def withdraw(user_data):
 
 
 @login_required
+def consume(user_data):
+    """
+    pay_check
+    :param user_data:
+    :return:
+    """
+    consume_amount = shopping_mall.shopping(user_data['account_name'],consume_logger)
+    com_tran_module(user_data, 'consume')
+
+
+@login_required
 def pay_check(user_data):
     """
     pay_check
     :param user_data:
     :return:
     """
-    com_tran_module(user_data, 'consume')
+    pass
 
 
 def logout(user_data):
@@ -147,33 +160,36 @@ def user_interface(account_data):
     2.  repay 
     3.  withdraw 
     4.  transfer 
-    5.  pay_check
-    6.  logout
+    5.  consume
+    6.  pay_check
+    7.  logout
     """
     menu1 = u"""
     -------Bank interface ---------
-    1.account_info
+    1.  account_info
     2.  repay 
     3.  withdraw 
     4.  transfer 
-    5.  pay_check
-    6.  logout
-    7.  Administrator
+    5.  consume 
+    6.  pay_check
+    7.  logout
+    8.  Administrator
     """
     menu_dic = {
         '1': account_info,
         '2': repay,
         '3': withdraw,
         '4': transfer,
-        '5': pay_check,
-        '6': logout,
+        '5': consume,
+        '6': pay_check,
+        '7': logout,
     }  # 函数字典， 实际上每个选项对应一个函数
     admin_flag = account_data['admin_flag']
     exit_flag = False
     while not exit_flag:
         if admin_flag == 1:  # 管理员
             util.print_log(menu1, 'info')
-            menu_dic['7'] = manage.manage_main
+            menu_dic['8'] = manage.manage_main
         else:
             util.print_log(menu,'info')
         user_option = input('>>:').strip()

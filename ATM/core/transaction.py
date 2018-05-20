@@ -34,7 +34,9 @@ def make_transaction(log_obj, user_info, tran_type, amount, **kwargs):
             new_balance = old_balance - amount - interest
             if new_balance < 0:
                 util.print_log('there is no enough money to pay for the transition[-%s],you current balance is %s' % (amount, old_balance), 'error')
-                return
+                save_flag = False
+                new_balance = old_balance
+                return new_balance,save_flag
             else:
                 if kwargs.get('transfer_name'):  #only for transfer
                     transfer_name_info = db_handler.load_file(kwargs.get('transfer_name'))
@@ -43,6 +45,8 @@ def make_transaction(log_obj, user_info, tran_type, amount, **kwargs):
                     db_handler.update_file(transfer_name_info['id'], transfer_name_info)
                     log_obj.info('account_name:%s,transaction:%s,transfer_name:%s,amount:%s,interest:%s' % (
                     user_info['id'],tran_type,transfer_name_info['id'], amount, interest))
+                    log_obj.info('account_name:%s,transaction:%s,transfer_name:%s,amount:%s' % (transfer_name_info['id'],
+                    tran_type, user_info['id'], amount))
                 else:
                     log_obj.info('account_name:%s,transaction:%s,amount:%s,interest:%s' % (
                     user_info['id'], tran_type, amount, interest))

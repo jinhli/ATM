@@ -21,7 +21,8 @@ LOG_LEVEL = logging.INFO  #日志的级别
 LOG_TYPES = {
              'transaction': 'transactions.log',
              'access': 'access.log',
-            'consume':'consume.log'
+            'consume': 'consume.log'
+
 }
 
 TRANSACTION_TYPE = {

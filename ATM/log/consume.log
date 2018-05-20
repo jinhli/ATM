@@ -1,1 +1,6 @@
-2018-05-20 10:11:23,764-consume-INFO-account_name:huahua, have bought ['phone'],and the total cost:3500.0
+2018-05-20 17:24:22,133-consume-INFO-account_name:luffy, have bought ['phone', 'computer'],and the total cost:8500.0
+2018-05-20 17:24:22,133-consume-INFO-account_name:luffy, have bought ['phone', 'computer'],and the total cost:8500.0
+2018-05-20 17:28:05,877-consume-INFO-account_name:luffy, have bought [],and the total cost:0
+2018-05-20 17:28:05,877-consume-INFO-account_name:luffy, have bought [],and the total cost:0
+2018-05-20 17:35:44,292-consume-INFO-account_name:luffy, have bought ['TV', 'phone'],and the total cost:7500.0
+2018-05-20 17:35:44,292-consume-INFO-account_name:luffy, have bought ['TV', 'phone'],and the total cost:7500.0
