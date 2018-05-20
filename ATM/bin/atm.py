@@ -11,7 +11,7 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  #整个程序的主目录
 
-# print(BASE_DIR)
+print(BASE_DIR)
 
 sys.path.append(BASE_DIR)
 

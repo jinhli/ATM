@@ -20,6 +20,7 @@ from core import manage
 # logger
 trans_logger = logger.logger('transaction')
 access_logger = logger.logger('access')
+consume_logger = logger.logger('consume')
 
 # 临时账户数据
 user_data = {
