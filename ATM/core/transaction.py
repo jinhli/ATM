@@ -8,6 +8,7 @@ from conf import settings
 from core import logger
 from core import db_handler
 from core import util
+from core import main
 
 
 def make_transaction(log_obj, user_info, tran_type, amount, **kwargs):
@@ -45,12 +46,13 @@ def make_transaction(log_obj, user_info, tran_type, amount, **kwargs):
                     db_handler.update_file(transfer_name_info['id'], transfer_name_info)
                     log_obj.info('account_name:%s,transaction:%s,transfer_name:%s,amount:%s,interest:%s' % (
                     user_info['id'],tran_type,transfer_name_info['id'], amount, interest))
-                    log_obj.info('account_name:%s,transaction:%s,transfer_name:%s,amount:%s' % (transfer_name_info['id'],
-                    tran_type, user_info['id'], amount))
+                    # log_obj.info('account_name:%s,transaction:%s,transfer_name:%s,amount:%s' % (transfer_name_info['id'],
+                    # tran_type, user_info['id'], amount))
                 else:
                     log_obj.info('account_name:%s,transaction:%s,amount:%s,interest:%s' % (
                     user_info['id'], tran_type, amount, interest))
         user_info['balance'] = new_balance
+        main.user_data['account_data'] = user_info
         save_flag = db_handler.update_file(user_info['id'], user_info) #数据保存成功
         return user_info,save_flag
     else:

@@ -15,7 +15,7 @@ sys.path.append(BASE_DIR)
 
 from core import main
 
-
+# consume_logger = logger.consume_logger(name)
 
 if __name__ == '__main__':
     main.run()

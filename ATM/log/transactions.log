@@ -12,3 +12,10 @@
 2018-05-20 17:26:31,582-transaction-INFO-account_name:luffy,transaction:withdraw,amount:1000.0,interest:5.0
 2018-05-20 17:35:01,504-transaction-INFO-account_name:luffy,transaction:consume,amount:0.0,interest:0.0
 2018-05-20 17:54:39,877-transaction-INFO-account_name:luffy,transaction:transfer,transfer_name:huahua,amount:5000.0,interest:25.0
+2018-05-20 23:20:07,419-transaction-INFO-account_name:luffy,transaction:consume,amount:0.0,interest:0.0
+2018-05-20 23:20:09,498-transaction-INFO-account_name:luffy,transaction:consume,amount:3.0,interest:0.0
+2018-05-20 23:20:11,081-transaction-INFO-account_name:luffy,transaction:consume,amount:4.0,interest:0.0
+2018-05-20 23:22:00,242-transaction-INFO-account_name:luffy,transaction:consume,amount:600.0,interest:0.0
+2018-05-20 23:44:13,042-transaction-INFO-account_name:luffy,transaction:consume,amount:400.0,interest:0.0
+2018-05-20 23:48:03,404-transaction-INFO-account_name:luffy,transaction:consume,amount:100.0,interest:0.0
+2018-05-20 23:49:41,881-transaction-INFO-account_name:luffy,transaction:consume,amount:100.0,interest:0.0

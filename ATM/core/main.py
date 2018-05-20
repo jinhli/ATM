@@ -23,7 +23,7 @@ from shopping_mall import shopping_mall
 # logger
 trans_logger = logger.logger('transaction')
 access_logger = logger.logger('access')
-consume_logger = logger.logger('consume')
+
 
 # 临时账户数据
 user_data = {
@@ -40,6 +40,7 @@ def account_info(user_data):
     :param user_info:
     :return:
     """
+    # user_info = db_handler.load_file(user_data['account_name'])
     user_info = user_data['account_data']
     print('ACCOUNT INFO'.center(50, '-'))
     for k, v in user_info.items():  # ???
@@ -125,7 +126,8 @@ def consume(user_data):
     :param user_data:
     :return:
     """
-    consume_amount = shopping_mall.shopping(user_data['account_name'],consume_logger)
+    name = user_data['account_name']
+    consume_amount = shopping_mall.shopping(user_data['account_name'],logger.logger_consume(name))
     com_tran_module(user_data, 'consume')
 
 
