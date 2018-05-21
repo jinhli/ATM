@@ -62,7 +62,8 @@ def add_acc(*args):
                 util.print_log('%s account has been created' % acc_name, 'info')
                 user_data1['account_data'] = acc_dic
                 main.account_info(user_data1)
-                user_shop_cart[acc_name]['shop_cart'] = []
+                new_acc_dic = {'shop_cart': []}
+                user_shop_cart[acc_name] = new_acc_dic
                 shopping_mall.dump_account(user_shop_cart)
                 exit_flag = True
 
