@@ -37,7 +37,7 @@ def load_shop_cart():
     :return: user_list
     """
     if os.path.isfile(user_file):
-        with open(user_file,'r') as f1:
+        with open(user_file, 'r') as f1:
             user_shop_cart = json.load(f1)
     return user_shop_cart  #返回所有用户信息
 
@@ -50,9 +50,9 @@ def dump_account(user_shop_cart):
     """
     # user_list = load_account()
     if os.path.isfile(user_file):
-        with open('%s.new' %user_file,'w') as f2:
-            json.dump(user_shop_cart,f2)
-        os.rename('%s.new' %user_file, user_file)
+        with open('%s.new' % user_file, 'w') as f2:
+            json.dump(user_shop_cart, f2)
+        os.rename('%s.new' % user_file, user_file)
         return True
 
 
@@ -66,12 +66,11 @@ def print_good_balance(name, total_consume, shop_cart):
     util.print_log(user_shop_info, 'info')
 
 
-def shopping(name,log_obj):
+def shopping(name, log_obj):
 
     user_shop_cart = load_shop_cart()  # 所有用户的字典信息
     product_list = load_product()  # 所有货物清单
     shop_cart = []
-    # original_balance = user_data['account_name']['balance'] # 加到main函数里
     consume_amount = 0
     exit_flag1 = False
     while not exit_flag1:
@@ -92,9 +91,9 @@ def shopping(name,log_obj):
                         'you have choose %s, and the total money is %s' % (shop_cart, consume_amount),
                         'info')
         elif num.lower() == 'b':
-            exit_flag = True
+            # exit_flag1 = True
             print_good_balance(name, consume_amount, shop_cart)
-            log_obj.info('account_name:%s, have bought %s,and the total cost:%s' % (name,shop_cart,consume_amount))
+            log_obj.info('account_name:%s, have bought %s,and the total cost:%s' % (name, shop_cart, consume_amount))
             dump_account(user_shop_cart)
             return consume_amount
         else:

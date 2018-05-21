@@ -19,3 +19,5 @@
 2018-05-20 23:44:13,042-transaction-INFO-account_name:luffy,transaction:consume,amount:400.0,interest:0.0
 2018-05-20 23:48:03,404-transaction-INFO-account_name:luffy,transaction:consume,amount:100.0,interest:0.0
 2018-05-20 23:49:41,881-transaction-INFO-account_name:luffy,transaction:consume,amount:100.0,interest:0.0
+2018-05-21 18:27:23,044-transaction-INFO-account_name:luffy,transaction:repay,amount:10000.0,interest:0.0
+2018-05-21 18:28:17,130-transaction-INFO-account_name:luffy,transaction:consume,amount:9000.0,interest:0.0

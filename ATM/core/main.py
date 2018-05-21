@@ -6,9 +6,10 @@
 import time
 import os
 import sys
+import re
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  #整个程序的主目录
 sys.path.append(BASE_DIR)
-print(BASE_DIR)
+
 from core import auth
 from core import logger
 from core import db_handler
@@ -73,7 +74,7 @@ def com_tran_module(user_data, tran_type):
                         return
                     file_name = '%s/account/%s.json' % (settings.BASE_DIR, transfer_name1)
                     if os.path.isfile(file_name):
-                        new_balance,save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount, transfer_name = transfer_name1)
+                        new_balance, save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount, transfer_name = transfer_name1)
 
                 else:
                     new_balance, save_flag = transaction.make_transaction(trans_logger, user_info, tran_type, amount)
@@ -127,7 +128,7 @@ def consume(user_data):
     :return:
     """
     name = user_data['account_name']
-    consume_amount = shopping_mall.shopping(user_data['account_name'],logger.logger_consume(name))
+    shopping_mall.shopping(name, logger.logger_consume(name))
     com_tran_module(user_data, 'consume')
 
 
@@ -138,7 +139,28 @@ def pay_check(user_data):
     :param user_data:
     :return:
     """
-    pass
+    count = 0
+    exit_flag = False
+    user_name = user_data['account_name']
+    log_name = '%s/log/%s.log' % (settings.BASE_DIR, user_name)
+    while not exit_flag:
+
+        search_mon = input('please input the month of the log you want to search, "example = 2018-01",'
+                           ' or input "b" to quit >>:').strip()
+        if search_mon == 'b':
+            return
+        else:
+            if os.path.isfile(log_name):
+                with open(log_name, 'r') as f:
+                    for line in f:
+                        search_res = re.match(search_mon, line)
+                        if search_res:
+                            util.print_log(line, 'info')
+                            count += 1
+                    util.print_log('Above are the consume log, total %s' % count, 'info')
+            else:
+                util.print_log('there is no consume log', 'error')
+                exit_flag = True
 
 
 def logout(user_data):

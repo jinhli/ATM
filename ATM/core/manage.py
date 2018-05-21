@@ -15,6 +15,7 @@ from core import db_handler
 from core import util
 from core import main
 from core.auth import login_required
+from shopping_mall import shopping_mall
 
 
 import datetime
@@ -25,6 +26,7 @@ def add_acc(*args):
     """
     :return:
     """
+    user_shop_cart = shopping_mall.load_shop_cart()
     acc_dic = {
         'id': 1234,
         'password': 'abc',
@@ -36,6 +38,7 @@ def add_acc(*args):
         'status': 0, # 0 = normal, 1 = locked, 2 = disabled
         'admin_flag': 0  # 0 = not admin, 1 = admin
     }
+
     user_data1 = {'account_data':None}
     exit_flag = False
     while not exit_flag:
@@ -45,8 +48,8 @@ def add_acc(*args):
             util.print_log('the account %s has been existed, please use a new name' %acc_name,'error')
             return
         else:
-            password = input('please input more than 5 digists>>').strip()
-            if (len(password)>= 5 and password.isdigit()):
+            password = input('please input more than 3 digists>>').strip()
+            if len(password) > 3 and password.isdigit():
                 acc_dic['id'] = acc_name
                 acc_dic['password'] = util.passwd_md5(acc_name, password)
                 current_date = datetime.datetime.now() #注册日期
@@ -56,15 +59,18 @@ def add_acc(*args):
                 acc_dic['expire_date'] = expire_date.strftime('%Y-%m-%d')
                 acc_dic['pay_day'] = pay_day.day
                 db_handler.update_file(acc_dic['id'],acc_dic)
-                util.print_log('%s account has been created' % name, 'info')
+                util.print_log('%s account has been created' % acc_name, 'info')
                 user_data1['account_data'] = acc_dic
                 main.account_info(user_data1)
+                user_shop_cart[acc_name]['shop_cart'] = []
+                shopping_mall.dump_account(user_shop_cart)
                 exit_flag = True
 
             elif acc_name == 'b' or password == 'b':
-                exit_flag = True
+                # exit_flag = True
+                return
             else:
-                util.print_log('please input the name and password again','error')
+                util.print_log('please input the name and password again, the password should be more than 3', 'error')
 
 
 

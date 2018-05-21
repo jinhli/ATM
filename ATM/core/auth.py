@@ -10,6 +10,7 @@ from core import logger
 from core import util
 import json
 import time
+from core import main
 
 def login_required(func):
     """
@@ -56,6 +57,8 @@ def access_auth(account, password):
                     exit()
                 else:
                     util.print_log('welcome %s \o/'%account,'info')
+                    main.access_logger.info('%s access the ATM successfully' % account)
+
                 return account_data
             else:
                 util.print_log('the password of the account %s is not right' % account, 'error')
