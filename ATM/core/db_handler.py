@@ -44,8 +44,8 @@ def update_file(account, user_info):
     with open('%s.new' %file_name, 'w', encoding='utf-8') as f:
         json.dump(user_info, f)
 
-    os.rename('%s.new' %file_name,file_name) #目的是以防万一出现老数据被修改，新数据又没又完成
-
+    os.replace('%s.new' %file_name,file_name) #目的是以防万一出现老数据被修改，新数据又没又完成
+       ##在windows 用rename会有问题
     return True
 
 
